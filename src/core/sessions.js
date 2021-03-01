@@ -181,6 +181,38 @@ SessionsManager.saveSession = (parsed) => {
 };
 
 // Call media optimizer on transcoders
+SessionsManager.streamingInit = async (parsed) => {
+    D(`STREAMING ${parsed.session} [START]`);
+    const server = await ServersManager.chooseServer(parsed.session, false)
+    fetch(`${server}/api/stream`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(parsed)
+    })
+    return parsed;
+};
+
+// Call media optimizer on transcoders
+SessionsManager.streamingDelete = async (parsed) => {
+    D(`STREAMING ${parsed.session} [DELETE]`);
+    SessionsManager.ffmpegSetCache(parsed.id, 0);
+    const server = await ServersManager.chooseServer(parsed.session, false)
+    fetch(`${server}/api/stream/${parsed.session}`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: 'DELETE',
+        body: JSON.stringify(parsed)
+    });
+    SessionsManager.cleanSession(parsed.session);
+    return parsed;
+};
+
+// Call media optimizer on transcoders
 SessionsManager.optimizerInit = async (parsed) => {
     D(`OPTIMIZER ${parsed.session} [START]`);
     const server = await ServersManager.chooseServer(parsed.session, false)

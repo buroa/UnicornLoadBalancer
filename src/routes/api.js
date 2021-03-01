@@ -42,7 +42,8 @@ RoutesAPI.ffmpeg = async (req, res) => {
         const parsedArgs = await SessionsManager.parseFFmpegParameters(req.body.arg, req.body.env);
         SessionsManager.ffmpegSetCache(parsedArgs.id, false);
         D('FFMPEG ' + parsedArgs.session + ' [STREAMING]');
-        SessionsManager.saveSession(parsedArgs)
+        SessionsManager.saveSession(parsedArgs);
+        SessionsManager.streamingInit(parsedArgs);
         return (res.send(parsedArgs));
     }
 };
