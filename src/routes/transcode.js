@@ -88,8 +88,8 @@ RoutesTranscode.hlsStart = (req, res) => {
         SessionsManager.cleanSession(sessionId);
 };
 
-/* Route called when a HLS stream starts */
-RoutesTranscode.tune = (req, res) => {
+/* Route called when a tune stream starts */
+RoutesTranscode.tuneStart = (req, res) => {
     // Proxy to Plex
     RoutesProxy.plex(req, res);
 
