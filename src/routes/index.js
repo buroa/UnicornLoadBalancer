@@ -33,7 +33,6 @@ export default (app) => {
 
     // Live TV support
     app.post('/livetv/dvrs/:dvrId/channels/:channelId/tune', RoutesTranscode.tuneStart);
-    app.get('/livetv/sessions/:sessionId/:streamId/index.m3u8', RoutesTranscode.redirect);
     app.get('/livetv/sessions/:sessionId/:streamId/initial.mp4', RoutesTranscode.redirect);
     app.get('/livetv/sessions/:sessionId/:streamId/:partId.ts', RoutesTranscode.redirect);
     app.get('/livetv/sessions/:sessionId/:streamId/:partId.vtt', RoutesTranscode.redirect);
