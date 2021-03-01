@@ -106,5 +106,14 @@ RoutesAPI.optimize = (req, res) => {
     })
 };
 
+// Stream finish
+RoutesAPI.stream = (req, res) => {
+    SessionStore.get(req.params.session).then((data) => {
+        SessionsManager.streamingDelete(parsedData);
+    }).catch(() => {
+        res.status(400).send({ error: { code: 'SESSION_TIMEOUT', message: 'Invalid session' } });
+    })
+};
+
 // Export all our API routes
 export default RoutesAPI;
