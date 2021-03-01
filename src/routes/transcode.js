@@ -88,6 +88,25 @@ RoutesTranscode.hlsStart = (req, res) => {
         SessionsManager.cleanSession(sessionId);
 };
 
+/* Route called when a HLS stream starts */
+RoutesTranscode.tune = (req, res) => {
+    // Proxy to Plex
+    RoutesProxy.plex(req, res);
+
+    // Save session
+    SessionsManager.cacheSessionFromRequest(req);
+
+    // Get sessionId
+    const sessionId = SessionsManager.getSessionFromRequest(req);
+
+    // Log
+    D('START ' + sessionId + ' [TUNE]');
+
+    // If sessionId is defined
+    if (sessionId)
+        SessionsManager.cleanSession(sessionId);
+};
+
 /* Route ping */
 RoutesTranscode.ping = async (req, res) => {
     // Proxy to Plex

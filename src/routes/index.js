@@ -31,6 +31,9 @@ export default (app) => {
     app.get('/:formatType/:/transcode/universal/start', RoutesTranscode.lpStart);
     app.get('/:formatType/:/transcode/universal/subtitles', RoutesTranscode.redirect);
 
+    // Live TV support
+    app.post('/livetv/dvrs/:dvrId/channels/:channelId/tune', RoutesTranscode.tune)
+
     // M3U8 support
     app.get('/:formatType/:/transcode/universal/start.m3u8', RoutesTranscode.hlsStart);
     app.get('/:formatType/:/transcode/universal/session/:sessionId/base/index.m3u8', RoutesTranscode.redirect);
