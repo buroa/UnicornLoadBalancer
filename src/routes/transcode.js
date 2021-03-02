@@ -36,6 +36,9 @@ RoutesTranscode.dashStart = (req, res) => {
     // By default we don't have the session identifier
     let sessionId = false;
 
+    // special live tv request
+    let livetv = req.query.path.startsWith('/livetv/sessions/');
+
     // If we have a cached X-Plex-Session-Identifier, we use it
     if (req.query['X-Plex-Session-Identifier'] && SessionsManager.getCacheSession(req.query['X-Plex-Session-Identifier']))
         sessionId = SessionsManager.getCacheSession(req.query['X-Plex-Session-Identifier']);
@@ -50,8 +53,12 @@ RoutesTranscode.dashStart = (req, res) => {
     if (sessionId)
         SessionsManager.cleanSession(sessionId);
 
-    // Redirect
-    RoutesTranscode.redirect(req, res);
+    // Redirect if not live tv, else go to plex
+    if (!livetv) {
+        RoutesTranscode.redirect(req, res);
+    } else {
+        RoutesProxy.plex(req, res);
+    }
 }
 
 /* Route called when a tune stream starts */
